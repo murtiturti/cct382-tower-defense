@@ -14,14 +14,58 @@ public class Spawner : MonoBehaviour
     #endregion
 
     private float _timer;
+    
+    private enum SpawnType {
+        Weighted,
+        Sequential,
+        Random
+    }
+    
+    private SpawnType _spawnType;
 
     private void Awake()
     {
-        weights = new float[enemies.Count];
+        SetupWeights();
+    }
+
+    private void Update()
+    {
+        _timer += Time.deltaTime;
     }
 
     public void Spawn()
     {
         
+    }
+
+    public void SetSpawnerType(GameMode gameMode)
+    {
+        switch (gameMode)
+        {
+            case GameMode.Survival:
+                _spawnType = SpawnType.Weighted;
+                break;
+            case GameMode.Timed:
+                _spawnType = SpawnType.Random;
+                break;
+            case GameMode.Levels:
+                _spawnType = SpawnType.Sequential;
+                break;
+            default:
+                _spawnType = SpawnType.Weighted;
+                break;
+        }
+    }
+
+    private void SetupWeights()
+    {
+        /*
+         * This function sets up the weights array to avoid exceptions pre weight-optimization
+         */
+        weights = new float[enemies.Count];
+        for (int i = 0; i < weights.Length; i++)
+        {
+            weights[i] = 1f;
+        }
     }
 }
