@@ -2712,7 +2712,7 @@ MonoBehaviour:
   mobPrefabs:
   - {fileID: 9119737542528911162, guid: f7c2bdb3865f11140a333c1030fbc344, type: 3}
   weights: []
-  minSpawnTime: 0
+  minSpawnTime: 1
   maxSpawnTime: 3
   minMobCount: 3
   maxMobCount: 50

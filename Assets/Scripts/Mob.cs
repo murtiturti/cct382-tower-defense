@@ -38,15 +38,19 @@ public class Mob : MonoBehaviour
 
     private void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position, pathObjects[_currentPathIndex].position, speed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, pathObjects[path[_currentPathIndex]].position, speed * Time.deltaTime);
         Navigate();
     }
 
     protected void Navigate()
     {
-        if (Vector3.Distance(transform.position, pathObjects[_currentPathIndex].position) < 0.01)
+        if (Vector3.Distance(transform.position, pathObjects[path[_currentPathIndex]].position) < 0.01f)
         {
-            _currentPathIndex++;            
+            _currentPathIndex++;
+            if (_currentPathIndex >= path.Count)
+            {
+                Destroy(gameObject); //Todo: Object pooling
+            }
         }
     }
 }
