@@ -9,7 +9,7 @@ public class Mob : MonoBehaviour
     [SerializeField] private List<int> path;
     private List<Transform> pathObjects;
 
-    [SerializeField] private float health;
+    [SerializeField] private int health;
     [SerializeField] private float speed;
     [SerializeField] private float damage;
     
@@ -51,6 +51,15 @@ public class Mob : MonoBehaviour
             {
                 Destroy(gameObject); //Todo: Object pooling
             }
+        }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            Destroy(gameObject);
         }
     }
 }

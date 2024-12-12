@@ -52,7 +52,6 @@ public class Tower : MonoBehaviour
                 closestDistanceSqr = distSqr;
                 closestEnemy = mob.transform;
                 _hasTarget = true;
-                Debug.Log("Found target");
             }
         }
 
@@ -63,6 +62,7 @@ public class Tower : MonoBehaviour
     {
         if (_target == null)
         {
+            _hasTarget = false;
             return;
         }
         float distSqr = (transform.position - _target.position).sqrMagnitude;
@@ -71,7 +71,6 @@ public class Tower : MonoBehaviour
             _target = null;
             _hasTarget = false;
             _timer = 0f;
-            Debug.Log("Lost target");
         }
     }
 
@@ -84,6 +83,6 @@ public class Tower : MonoBehaviour
         }
         _timer = 0f;
         var go = Instantiate(projectile, transform.position, Quaternion.identity);
-        go.GetComponent<Projectile>().SetTarget(_target);
+        go.GetComponent<Projectile>().SetTarget(_target, damage);
     }
 }
