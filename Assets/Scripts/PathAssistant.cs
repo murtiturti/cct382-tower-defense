@@ -23,6 +23,7 @@ public class PathAssistant : MonoBehaviour
         paths.Add(path3);
         paths.Add(path4);
         paths.Add(path5);
+
     }
 
     public List<int> ChooseRandomPath()
