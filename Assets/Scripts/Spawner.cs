@@ -8,7 +8,6 @@ using UnityEngine.Serialization;
 public class Spawner : MonoBehaviour
 {
     #region Parameters
-    [SerializeField] private float rate;
     [SerializeField] private List<GameObject> mobPrefabs; // prefabs
     [SerializeField] private float[] weights;
     [SerializeField] private float minSpawnTime;
@@ -16,7 +15,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] private int minMobCount;
     [SerializeField] private int maxMobCount;
     [SerializeField] private float spawnBaseRate;
-    [FormerlySerializedAs("spawnRate")] [SerializeField] private float spawnIncreaseRate;
+    [SerializeField] private float spawnIncreaseRate;
     #endregion
 
     private float _timer;
@@ -24,6 +23,7 @@ public class Spawner : MonoBehaviour
     private int _waveNumber;
     
     private Queue<GameObject> _spawnQueue;
+    private Queue<GameObject> _pool;
     
     private enum SpawnType {
         Weighted,
@@ -75,7 +75,7 @@ public class Spawner : MonoBehaviour
             spawnCount = (int) Math.Clamp(Math.Floor(minMobCount * Math.Pow(spawnBaseRate, _waveNumber * spawnIncreaseRate)), minMobCount, maxMobCount);
             for (int i = 0; i < spawnCount; i++)
             {
-                var mob = mobPrefabs[UnityEngine.Random.Range(0, mobPrefabs.Count)];
+                var mob = mobPrefabs[UnityEngine.Random.Range(0, mobPrefabs.Count)]; // check if mob of this type exists in the pool before spawning
                 _spawnQueue.Enqueue(mob);
             }
         }

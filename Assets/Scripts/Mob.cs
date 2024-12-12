@@ -19,7 +19,7 @@ public class Mob : MonoBehaviour
 
     private void Awake()
     {
-        var assistant = FindObjectOfType<PathAssistant>();
+        var assistant = FindObjectOfType<PathAssistant>(); //TODO: Get Node transforms from PathAssistant as well
         path = assistant.ChooseRandomPath();
         pathObjects = new List<Transform>();
         var parent = GameObject.Find("Nodes");
