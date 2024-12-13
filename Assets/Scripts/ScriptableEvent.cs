@@ -27,9 +27,6 @@ public struct Void { } // A placeholder struct for events without data
 [CreateAssetMenu(menuName = "Events/Void Event")]
 public class VoidEvent : ScriptableEvent<Void> { }
 
-[CreateAssetMenu(menuName = "Events/Int Event")]
-public class IntEvent : ScriptableEvent<int> { }
-
 [CreateAssetMenu(menuName = "Events/Float Event")]
 public class FloatEvent : ScriptableEvent<float> { }
 

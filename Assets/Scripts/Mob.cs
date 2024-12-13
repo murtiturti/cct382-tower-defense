@@ -11,7 +11,12 @@ public class Mob : MonoBehaviour
 
     [SerializeField] private int health;
     [SerializeField] private float speed;
-    [SerializeField] private float damage;
+    [SerializeField] private int damage;
+    [SerializeField] private int reward;
+    [SerializeField] private int scoreIncrease;
+    [SerializeField] private IntEvent playerDamageEvent;
+    [SerializeField] private IntEvent scoreGainEvent;
+    [SerializeField] private IntEvent moneyGainEvent;
     
     //TODO: Add strengths and weaknesses
     
@@ -49,17 +54,19 @@ public class Mob : MonoBehaviour
             _currentPathIndex++;
             if (_currentPathIndex >= path.Count)
             {
-                // TODO: hurt player health
+                playerDamageEvent.Raise(damage);
                 Destroy(gameObject); //Todo: Object pooling
             }
         }
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int _damage)
     {
-        health -= damage;
+        health -= _damage;
         if (health <= 0)
         {
+            moneyGainEvent.Raise(reward);
+            scoreGainEvent.Raise(scoreIncrease);
             Destroy(gameObject);
         }
     }
