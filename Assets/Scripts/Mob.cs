@@ -49,6 +49,7 @@ public class Mob : MonoBehaviour
             _currentPathIndex++;
             if (_currentPathIndex >= path.Count)
             {
+                // TODO: hurt player health
                 Destroy(gameObject); //Todo: Object pooling
             }
         }
