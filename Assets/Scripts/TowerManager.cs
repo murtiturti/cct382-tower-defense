@@ -15,6 +15,8 @@ public class TowerManager : MonoBehaviour
 
     private Camera _mainCam;
 
+    [SerializeField] private IntVariable playerMoney;
+
     private void Awake()
     {
         _mainCam = Camera.main;
@@ -30,17 +32,25 @@ public class TowerManager : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Vector3 mousePos = _mainCam.ScreenToWorldPoint(Input.mousePosition);
-            Vector3Int cellPosition = _grid.WorldToCell(mousePos);
-            
-            TileBase clickedTile = placementTilemap.GetTile(cellPosition);
-            if (clickedTile == validTile)
+            var tower = towerPrefab.GetComponent<Tower>();
+            if (tower != null)
             {
-                Vector3 towerPos = _grid.GetCellCenterWorld(cellPosition);
+                if (playerMoney.Value >= tower.cost)
+                {
+                    Vector3 mousePos = _mainCam.ScreenToWorldPoint(Input.mousePosition);
+                    Vector3Int cellPosition = _grid.WorldToCell(mousePos);
+            
+                    TileBase clickedTile = placementTilemap.GetTile(cellPosition);
+                    if (clickedTile == validTile)
+                    {
+                        Vector3 towerPos = _grid.GetCellCenterWorld(cellPosition);
 
-                Instantiate(towerPrefab, towerPos, Quaternion.identity);
+                        Instantiate(towerPrefab, towerPos, Quaternion.identity);
                 
-                placementTilemap.SetTile(cellPosition, null);
+                        placementTilemap.SetTile(cellPosition, null);
+                        playerMoney.Value -= tower.cost;
+                    }
+                }
             }
         }
     }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,11 +9,20 @@ public class GameManager : MonoBehaviour
     private GameMode gameMode;
     
     private Spawner _spawner;
+    private Player _player;
+
+    private int _score;
+
+    [SerializeField] private IntEvent scoreGain;
+    
     // Start is called before the first frame update
     void Start()
     {
         _spawner = FindObjectOfType<Spawner>();
         _spawner.SetSpawnerType(gameMode);
+        
+        _player = FindObjectOfType<Player>();
+        scoreGain.RegisterListener(OnScoreGain);
     }
 
     // Update is called once per frame
@@ -27,5 +37,24 @@ public class GameManager : MonoBehaviour
          * Mobs walk from node to node
          * Game ends when player loses all health points
          */
+        if (PlayerDied()) {
+            Debug.Log("Game Over");
+            _spawner.enabled = false;
+        }
+    }
+
+    bool PlayerDied()
+    {
+        return _player.Health() <= 0;
+    }
+
+    void OnScoreGain(int gain)
+    {
+        _score += gain;
+    }
+
+    private void OnDestroy()
+    {
+        scoreGain.UnregisterListener(OnScoreGain);
     }
 }
