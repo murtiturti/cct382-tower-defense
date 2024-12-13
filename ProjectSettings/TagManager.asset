@@ -6,6 +6,8 @@ TagManager:
   tags:
   - CanPlace
   - CantPlace
+  - Node
+  - Mob
   layers:
   - Default
   - TransparentFX
