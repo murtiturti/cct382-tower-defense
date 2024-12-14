@@ -8,7 +8,7 @@ public class TowerManager : MonoBehaviour
 {
     [SerializeField] private GameObject towerPrefab;
     [SerializeField] private List<GameObject> towers;
-    [SerializeField] private GameObject towerSelectorObject;
+    [SerializeField] private GameObject buildSelectorObject;
 
     public Tilemap placementTilemap;
     public TileBase validTile;
@@ -16,8 +16,8 @@ public class TowerManager : MonoBehaviour
     private TileBase selectedTile;
     private Vector3Int selectedCellpos;
 
-    private PlayableDirector openSelectorDir;
-    private PlayableDirector closeSelectorDir;
+    private PlayableDirector openBuildSelectorDir;
+    private PlayableDirector closeBuildSelectorDir;
 
     private Grid _grid;
     private Camera _mainCam;
@@ -36,8 +36,8 @@ public class TowerManager : MonoBehaviour
         selectorOpen = false;
         _grid = placementTilemap.layoutGrid;
 
-        openSelectorDir = GameObject.Find("Open Selector Timeline").GetComponent<PlayableDirector>();
-        closeSelectorDir = GameObject.Find("Close Selector Timeline").GetComponent<PlayableDirector>();
+        openBuildSelectorDir = GameObject.Find("Open Build Selector Timeline").GetComponent<PlayableDirector>();
+        closeBuildSelectorDir = GameObject.Find("Close Build Selector Timeline").GetComponent<PlayableDirector>();
     }
 
     public void placeTower(int tower_index)
@@ -54,20 +54,20 @@ public class TowerManager : MonoBehaviour
             placementTilemap.SetTile(selectedCellpos, null);
             playerMoney.Value -= tower.cost;
 
-            closeSelectorMenu();
+            closeBuildSelectorMenu();
         }
     }
 
-    private void openSelectorMenu(Vector3 mousePos)
+    private void openBuildSelectorMenu(Vector3 mousePos)
     {
-        openSelectorDir.Play();
-        towerSelectorObject.transform.position = new Vector3(mousePos.x, mousePos.y, towerSelectorObject.transform.position.z);
+        openBuildSelectorDir.Play();
+        buildSelectorObject.transform.position = new Vector3(mousePos.x, mousePos.y, buildSelectorObject.transform.position.z);
         selectorOpen = true;
     }
 
-    private void closeSelectorMenu()
+    private void closeBuildSelectorMenu()
     {
-        closeSelectorDir.Play();
+        closeBuildSelectorDir.Play();
         selectorOpen = false;
         selectedTile = null;
         selectedCellpos = Vector3Int.zero;
@@ -86,12 +86,12 @@ public class TowerManager : MonoBehaviour
 
                 if (selectedTile)
                 {
-                    openSelectorMenu(mousePos);
+                    openBuildSelectorMenu(mousePos);
                 }
             }
             else
             {
-                closeSelectorMenu();
+                closeBuildSelectorMenu();
             }
         }
     }

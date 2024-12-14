@@ -893,7 +893,7 @@ GameObject:
   - component: {fileID: 152507182}
   - component: {fileID: 152507183}
   m_Layer: 5
-  m_Name: Close Selector Timeline
+  m_Name: Close Build Selector Timeline
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3414,7 +3414,7 @@ GameObject:
   - component: {fileID: 923013838}
   - component: {fileID: 923013839}
   m_Layer: 5
-  m_Name: Open Selector Timeline
+  m_Name: Open Build Selector Timeline
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5370,7 +5370,7 @@ MonoBehaviour:
   - {fileID: 7104810160614538221, guid: 6a67b70122eb462419dec2d2fa812669, type: 3}
   - {fileID: 5044176681091694042, guid: af1a52dabe443b949b581130635c704f, type: 3}
   - {fileID: 4648694451641984691, guid: 9bb4ed355c9d2ff4cb37ff6050d656b7, type: 3}
-  towerSelectorObject: {fileID: 2122994972}
+  buildSelectorObject: {fileID: 2122994972}
   placementTilemap: {fileID: 2132699223}
   validTile: {fileID: 11400000, guid: 12a07f5298870cb4184d0f517d7108a2, type: 2}
   playerMoney: {fileID: 11400000, guid: a74f800189896e444ba8fa6f47c1c74c, type: 2}
@@ -6566,6 +6566,67 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2050209077}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &2080889972
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1709427524072478907, guid: aa4af79857ff6ac4096e4e42c7ce033a, type: 3}
+      propertyPath: m_Name
+      value: Burger Tower
+      objectReference: {fileID: 0}
+    - target: {fileID: 3634453543272489031, guid: aa4af79857ff6ac4096e4e42c7ce033a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -15.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3634453543272489031, guid: aa4af79857ff6ac4096e4e42c7ce033a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3634453543272489031, guid: aa4af79857ff6ac4096e4e42c7ce033a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.52
+      objectReference: {fileID: 0}
+    - target: {fileID: 3634453543272489031, guid: aa4af79857ff6ac4096e4e42c7ce033a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3634453543272489031, guid: aa4af79857ff6ac4096e4e42c7ce033a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3634453543272489031, guid: aa4af79857ff6ac4096e4e42c7ce033a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3634453543272489031, guid: aa4af79857ff6ac4096e4e42c7ce033a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3634453543272489031, guid: aa4af79857ff6ac4096e4e42c7ce033a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3634453543272489031, guid: aa4af79857ff6ac4096e4e42c7ce033a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3634453543272489031, guid: aa4af79857ff6ac4096e4e42c7ce033a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6140414197128831350, guid: aa4af79857ff6ac4096e4e42c7ce033a, type: 3}
+      propertyPath: m_TargetGraphic
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: aa4af79857ff6ac4096e4e42c7ce033a, type: 3}
 --- !u!1 &2118727957
 GameObject:
   m_ObjectHideFlags: 0
@@ -6579,7 +6640,7 @@ GameObject:
   - component: {fileID: 2118727959}
   - component: {fileID: 2118727958}
   m_Layer: 5
-  m_Name: Tower Selector Canvas
+  m_Name: Selector Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6680,7 +6741,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2122994973}
   m_Layer: 5
-  m_Name: Tower Selector Object
+  m_Name: Build Selector Object
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7914,3 +7975,4 @@ SceneRoots:
   - {fileID: 119699517}
   - {fileID: 1893299186}
   - {fileID: 1308864996}
+  - {fileID: 2080889972}
