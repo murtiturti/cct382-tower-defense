@@ -14,6 +14,9 @@ public class GameManager : MonoBehaviour
     private int _score;
 
     [SerializeField] private IntEvent scoreGain;
+
+    private float _gameTimer;
+    private int _timedModeLength = 5;
     
     // Start is called before the first frame update
     void Start()
@@ -40,6 +43,18 @@ public class GameManager : MonoBehaviour
         if (PlayerDied()) {
             Debug.Log("Game Over");
             _spawner.enabled = false;
+            return;
+        }
+
+        if (gameMode == GameMode.Timed)
+        {
+            _gameTimer += Time.deltaTime;
+            if (_gameTimer >= _timedModeLength * 60)
+            {
+                Debug.Log("Game Over");
+                _spawner.enabled = false;
+                return;
+            }
         }
     }
 
