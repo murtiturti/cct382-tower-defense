@@ -8,22 +8,20 @@ public class Tower : MonoBehaviour
     public int damage;
     public float fireRate;
     public float range;
+    public string type;
     public GameObject projectile;
-    
-    private bool _isPlaced;
+
     private Transform _target;
     private bool _hasTarget;
 
     private float _timer;
-    
-    //TODO: Add type and upgrades
-    
-    void Start()
+
+    private void Start()
     {
-        _isPlaced = false;
+        
     }
-    
-    void Update()
+
+    private void Update()
     {
         if (!_hasTarget)
         {
@@ -36,7 +34,7 @@ public class Tower : MonoBehaviour
         }
     }
 
-    void ChooseTarget()
+    private void ChooseTarget()
     {
         GameObject[] mobs = GameObject.FindGameObjectsWithTag("Mob");
 
@@ -58,7 +56,7 @@ public class Tower : MonoBehaviour
         _target = closestEnemy;
     }
 
-    void TrackTarget()
+    private void TrackTarget()
     {
         if (_target == null)
         {
@@ -74,7 +72,7 @@ public class Tower : MonoBehaviour
         }
     }
 
-    void Fire()
+    private void Fire()
     {
         _timer += Time.deltaTime;
         if (_timer < fireRate)
@@ -84,5 +82,10 @@ public class Tower : MonoBehaviour
         _timer = 0f;
         var go = Instantiate(projectile, transform.position, Quaternion.identity);
         go.GetComponent<Projectile>().SetTarget(_target, damage);
+    }
+
+    public void setType(string tower_type)
+    {
+        type = tower_type;
     }
 }

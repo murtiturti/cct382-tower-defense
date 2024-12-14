@@ -1185,7 +1185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 10
-  money: 100
+  money: 1000
   takeDamage: {fileID: 11400000, guid: e535bc3923b81ae42981d0a9b5b9bb95, type: 2}
   winMoney: {fileID: 11400000, guid: af15245be2546454abd66b2e45d5b384, type: 2}
   playerMoney: {fileID: 11400000, guid: a74f800189896e444ba8fa6f47c1c74c, type: 2}
@@ -1962,7 +1962,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mobPrefabs:
-  - {fileID: 9119737542528911162, guid: f7c2bdb3865f11140a333c1030fbc344, type: 3}
+  - {fileID: 3602215212145472700, guid: b1e300353dbc5e045a2b09931ae80bb6, type: 3}
+  - {fileID: 7705926261969531618, guid: 662e04eeb0d1cec47a8ac8dae98af098, type: 3}
+  - {fileID: 3901477036982756871, guid: b58c750a05947e34e8acdf45d5ea166f, type: 3}
+  - {fileID: 5689939352520350783, guid: 54aefe3a761d19d49806e2e1b2215d17, type: 3}
   weights: []
   minSpawnTime: 1
   maxSpawnTime: 3
@@ -1979,7 +1982,7 @@ Transform:
   m_GameObject: {fileID: 511604490}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -27.912, y: -8.042, z: 0.556}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

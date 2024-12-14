@@ -12,6 +12,7 @@ public class Mob : MonoBehaviour
     [SerializeField] private int health;
     [SerializeField] private float speed;
     [SerializeField] private int damage;
+    [SerializeField] private string type;
     [SerializeField] private int reward;
     [SerializeField] private int scoreIncrease;
     [SerializeField] private IntEvent playerDamageEvent;

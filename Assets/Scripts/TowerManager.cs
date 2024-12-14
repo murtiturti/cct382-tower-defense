@@ -40,9 +40,9 @@ public class TowerManager : MonoBehaviour
         closeSelectorDir = GameObject.Find("Close Selector Timeline").GetComponent<PlayableDirector>();
     }
 
-    public void placeTower(int tower_type)
+    public void placeTower(int tower_index)
     {
-        GameObject towerPrefab = towers[tower_type];
+        GameObject towerPrefab = towers[tower_index];
         var tower = towerPrefab.GetComponent<Tower>();
 
         if (playerMoney.Value >= tower.cost && selectorOpen)
