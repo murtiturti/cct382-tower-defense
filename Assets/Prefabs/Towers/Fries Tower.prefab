@@ -100,6 +100,6 @@ MonoBehaviour:
   cost: 80
   damage: 4
   fireRate: 0.25
-  range: 5
+  range: 4
   type: fries
   projectile: {fileID: 9119737542528911162, guid: 9c8ca5d20dacc59428691965374858d4, type: 3}

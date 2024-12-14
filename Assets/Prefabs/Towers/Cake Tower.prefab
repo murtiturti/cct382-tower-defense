@@ -99,7 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cost: 500
   damage: 100
-  fireRate: 5
-  range: 5
+  fireRate: 4
+  range: 8
   type: cake
   projectile: {fileID: 9119737542528911162, guid: 9c8ca5d20dacc59428691965374858d4, type: 3}

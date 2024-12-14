@@ -57,7 +57,7 @@ public class Spawner : MonoBehaviour
         if (_spawnQueue.Count != 0)
         {
             var mob = _spawnQueue.Dequeue();
-            Vector3 spawn_position = new Vector3(transform.position.x, transform.position.y, mob.transform.position.z);
+            Vector3 spawn_position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
             Instantiate(mob, spawn_position, Quaternion.identity);
         }
         else
