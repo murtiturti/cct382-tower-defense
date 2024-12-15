@@ -67,7 +67,10 @@ public class TowerManager : MonoBehaviour
         {
             Vector3 towerPos = _grid.GetCellCenterWorld(selectedCellpos);
 
-            Instantiate(towerPrefab, towerPos, Quaternion.identity);
+            var towerInstance = Instantiate(towerPrefab, towerPos, Quaternion.identity);
+            
+            Tower placedTower = towerInstance.GetComponent<Tower>();
+            placedTower.SetTilePosition(selectedCellpos);
 
             placementTilemap.SetTile(selectedCellpos, null);
             playerMoney.Value -= tower.cost[0];
@@ -139,10 +142,14 @@ public class TowerManager : MonoBehaviour
         if (towerSelectorOpen)
         {
             Tower tower = selectedTower.GetComponent<Tower>();
+            
+            Vector3Int towerTilePos = new Vector3Int(tower.x, tower.y, tower.z);
 
             playerMoney.Value += tower.getRefund();
+            placementTilemap.SetTile(towerTilePos, validTile);
             Destroy(selectedTower);
             closeTowerSelectorMenu();
+            
         }
     }
 
