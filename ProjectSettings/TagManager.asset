@@ -8,6 +8,7 @@ TagManager:
   - CantPlace
   - Node
   - Mob
+  - Special
   layers:
   - Default
   - TransparentFX

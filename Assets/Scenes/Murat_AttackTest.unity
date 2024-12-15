@@ -1415,6 +1415,8 @@ MonoBehaviour:
   takeDamage: {fileID: 11400000, guid: e535bc3923b81ae42981d0a9b5b9bb95, type: 2}
   winMoney: {fileID: 11400000, guid: af15245be2546454abd66b2e45d5b384, type: 2}
   playerMoney: {fileID: 11400000, guid: a74f800189896e444ba8fa6f47c1c74c, type: 2}
+  specialAttack: {fileID: 7852948231959001447, guid: 80ecc93ebe3accb4a8b760961965a77b, type: 3}
+  specialCooldown: 60
 --- !u!4 &192085469
 Transform:
   m_ObjectHideFlags: 0
