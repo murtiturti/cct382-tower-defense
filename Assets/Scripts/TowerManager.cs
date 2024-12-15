@@ -93,7 +93,14 @@ public class TowerManager : MonoBehaviour
         {
             if (text.gameObject.name == "Upgrade Text")
             {
-                text.text = $"-${tower.cost[tower.level]}";
+                if (tower.level >= 3)
+                {
+                    text.text = $"";
+                }
+                else
+                {
+                    text.text = $"-${tower.cost[tower.level]}";
+                }
             }
             else
             {
@@ -118,11 +125,14 @@ public class TowerManager : MonoBehaviour
         {
             Tower tower = selectedTower.GetComponent<Tower>();
 
-            if (playerMoney.Value < tower.cost[tower.level] && tower.level < tower.cost.Length)
+            if (tower.level < 3)
             {
-                playerMoney.Value -= tower.cost[tower.level];
-                selectedTower.GetComponent<Tower>().level += 1;
-                closeTowerSelectorMenu();
+                if (playerMoney.Value >= tower.cost[tower.level])
+                {
+                    playerMoney.Value -= tower.cost[tower.level];
+                    selectedTower.GetComponent<Tower>().level += 1;
+                    closeTowerSelectorMenu();
+                }
             }
         }
     }
