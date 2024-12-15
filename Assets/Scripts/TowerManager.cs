@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Playables;
 using UnityEngine.Tilemaps;
+using TMPro;
 
 public class TowerManager : MonoBehaviour
 {
@@ -56,14 +57,14 @@ public class TowerManager : MonoBehaviour
         GameObject towerPrefab = towers[tower_index];
         var tower = towerPrefab.GetComponent<Tower>();
 
-        if (playerMoney.Value >= tower.cost && buildSelectorOpen)
+        if (playerMoney.Value >= tower.cost[0] && buildSelectorOpen)
         {
             Vector3 towerPos = _grid.GetCellCenterWorld(selectedCellpos);
 
             Instantiate(towerPrefab, towerPos, Quaternion.identity);
 
             placementTilemap.SetTile(selectedCellpos, null);
-            playerMoney.Value -= tower.cost;
+            playerMoney.Value -= tower.cost[0];
 
             closeBuildSelectorMenu();
         }
@@ -71,21 +72,11 @@ public class TowerManager : MonoBehaviour
 
     public void clickOnTower(GameObject tower)
     {
-        if (selectedTower != tower)
-        {
-            towerSelectorOpen = false;
-            selectedTower = tower;
-            towerSelectorObject.transform.position = new Vector3(tower.transform.position.x, tower.transform.position.y, towerSelectorObject.transform.position.z);
-        }
+        towerSelectorOpen = false;
+        selectedTower = tower;
+        towerSelectorObject.transform.position = new Vector3(tower.transform.position.x, tower.transform.position.y, towerSelectorObject.transform.position.z);
 
-        if (towerSelectorOpen)
-        {
-            closeTowerSelectorMenu();
-        }
-        else
-        {
-            openTowerSelectorMenu();
-        }
+        openTowerSelectorMenu();
     }
 
     public void openTowerSelectorMenu()
@@ -93,6 +84,20 @@ public class TowerManager : MonoBehaviour
         if (buildSelectorOpen)
         {
             closeBuildSelectorMenu();
+        }
+
+        Tower tower = selectedTower.GetComponent<Tower>();
+
+        foreach (TextMeshProUGUI text in towerSelectorObject.GetComponentsInChildren<TextMeshProUGUI>())
+        {
+            if (text.gameObject.name == "Upgrade Text")
+            {
+                text.text = $"-${tower.cost[tower.level]}";
+            }
+            else
+            {
+                text.text = $"+${tower.getRefund()}";
+            }
         }
 
         openTowerSelectorDir.Play();
@@ -110,8 +115,14 @@ public class TowerManager : MonoBehaviour
     {
         if (towerSelectorOpen)
         {
-            selectedTower.GetComponent<Tower>().level += 1;
-            closeTowerSelectorMenu();
+            Tower tower = selectedTower.GetComponent<Tower>();
+
+            if (playerMoney.Value < tower.cost[tower.level] && tower.level < tower.cost.Length)
+            {
+                playerMoney.Value -= tower.cost[tower.level];
+                selectedTower.GetComponent<Tower>().level += 1;
+                closeTowerSelectorMenu();
+            }
         }
     }
 
@@ -119,6 +130,9 @@ public class TowerManager : MonoBehaviour
     {
         if (towerSelectorOpen)
         {
+            Tower tower = selectedTower.GetComponent<Tower>();
+
+            playerMoney.Value -= tower.getRefund();
             Destroy(selectedTower);
             closeTowerSelectorMenu();
         }
