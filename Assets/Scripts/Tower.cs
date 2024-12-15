@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.Playables;
 
-public class Tower : MonoBehaviour
+public class Tower : MonoBehaviour, IPointerClickHandler
 {
     public int cost;
     public int damage;
+    public int level = 1;
     public float fireRate;
     public float range;
     public string type;
@@ -15,11 +18,6 @@ public class Tower : MonoBehaviour
     private bool _hasTarget;
 
     private float _timer;
-
-    private void Start()
-    {
-        
-    }
 
     private void Update()
     {
@@ -32,6 +30,11 @@ public class Tower : MonoBehaviour
             Fire();
             TrackTarget();
         }
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        TowerManager.instance.clickOnTower(this.gameObject);
     }
 
     private void ChooseTarget()
@@ -82,10 +85,5 @@ public class Tower : MonoBehaviour
         _timer = 0f;
         var go = Instantiate(projectile, transform.position, Quaternion.identity);
         go.GetComponent<Projectile>().SetTarget(_target, damage);
-    }
-
-    public void setType(string tower_type)
-    {
-        type = tower_type;
     }
 }

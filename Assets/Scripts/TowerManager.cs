@@ -6,8 +6,10 @@ using UnityEngine.Tilemaps;
 
 public class TowerManager : MonoBehaviour
 {
-    [SerializeField] private GameObject towerPrefab;
+    public static TowerManager instance;
+
     [SerializeField] private List<GameObject> towers;
+    [SerializeField] private GameObject buildSelectorObject;
     [SerializeField] private GameObject towerSelectorObject;
 
     public Tilemap placementTilemap;
@@ -15,29 +17,38 @@ public class TowerManager : MonoBehaviour
 
     private TileBase selectedTile;
     private Vector3Int selectedCellpos;
+    private GameObject selectedTower;
 
-    private PlayableDirector openSelectorDir;
-    private PlayableDirector closeSelectorDir;
+    private PlayableDirector openBuildSelectorDir;
+    private PlayableDirector closeBuildSelectorDir;
+    private PlayableDirector openTowerSelectorDir;
+    private PlayableDirector closeTowerSelectorDir;
 
     private Grid _grid;
     private Camera _mainCam;
 
-    private bool selectorOpen;
+    private bool buildSelectorOpen;
+    private bool towerSelectorOpen;
 
     [SerializeField] private IntVariable playerMoney;
 
     private void Awake()
     {
+        if (instance == null) instance = this; else Destroy(this);
         _mainCam = Camera.main;
     }
 
     private void Start()
     {
-        selectorOpen = false;
+        buildSelectorOpen = false;
+        towerSelectorOpen = false;
         _grid = placementTilemap.layoutGrid;
 
-        openSelectorDir = GameObject.Find("Open Selector Timeline").GetComponent<PlayableDirector>();
-        closeSelectorDir = GameObject.Find("Close Selector Timeline").GetComponent<PlayableDirector>();
+        openBuildSelectorDir = GameObject.Find("Open Build Selector Timeline").GetComponent<PlayableDirector>();
+        closeBuildSelectorDir = GameObject.Find("Close Build Selector Timeline").GetComponent<PlayableDirector>();
+
+        openTowerSelectorDir = GameObject.Find("Open Tower Selector Timeline").GetComponent<PlayableDirector>();
+        closeTowerSelectorDir = GameObject.Find("Close Tower Selector Timeline").GetComponent<PlayableDirector>();
     }
 
     public void placeTower(int tower_index)
@@ -45,7 +56,7 @@ public class TowerManager : MonoBehaviour
         GameObject towerPrefab = towers[tower_index];
         var tower = towerPrefab.GetComponent<Tower>();
 
-        if (playerMoney.Value >= tower.cost && selectorOpen)
+        if (playerMoney.Value >= tower.cost && buildSelectorOpen)
         {
             Vector3 towerPos = _grid.GetCellCenterWorld(selectedCellpos);
 
@@ -54,21 +65,81 @@ public class TowerManager : MonoBehaviour
             placementTilemap.SetTile(selectedCellpos, null);
             playerMoney.Value -= tower.cost;
 
-            closeSelectorMenu();
+            closeBuildSelectorMenu();
         }
     }
 
-    private void openSelectorMenu(Vector3 mousePos)
+    public void clickOnTower(GameObject tower)
     {
-        openSelectorDir.Play();
-        towerSelectorObject.transform.position = new Vector3(mousePos.x, mousePos.y, towerSelectorObject.transform.position.z);
-        selectorOpen = true;
+        if (selectedTower != tower)
+        {
+            towerSelectorOpen = false;
+            selectedTower = tower;
+            towerSelectorObject.transform.position = new Vector3(tower.transform.position.x, tower.transform.position.y, towerSelectorObject.transform.position.z);
+        }
+
+        if (towerSelectorOpen)
+        {
+            closeTowerSelectorMenu();
+        }
+        else
+        {
+            openTowerSelectorMenu();
+        }
     }
 
-    private void closeSelectorMenu()
+    public void openTowerSelectorMenu()
     {
-        closeSelectorDir.Play();
-        selectorOpen = false;
+        if (buildSelectorOpen)
+        {
+            closeBuildSelectorMenu();
+        }
+
+        openTowerSelectorDir.Play();
+        towerSelectorOpen = true;
+    }
+
+    public void closeTowerSelectorMenu()
+    {
+        closeTowerSelectorDir.Play();
+        towerSelectorOpen = false;
+        selectedTower = null;
+    }
+
+    public void upgradeTower()
+    {
+        if (towerSelectorOpen)
+        {
+            selectedTower.GetComponent<Tower>().level += 1;
+            closeTowerSelectorMenu();
+        }
+    }
+
+    public void sellTower()
+    {
+        if (towerSelectorOpen)
+        {
+            Destroy(selectedTower);
+            closeTowerSelectorMenu();
+        }
+    }
+
+    private void openBuildSelectorMenu(Vector3 mousePos)
+    {
+        if (towerSelectorOpen)
+        {
+            closeTowerSelectorMenu();
+        }
+
+        openBuildSelectorDir.Play();
+        buildSelectorObject.transform.position = new Vector3(mousePos.x, mousePos.y, buildSelectorObject.transform.position.z);
+        buildSelectorOpen = true;
+    }
+
+    private void closeBuildSelectorMenu()
+    {
+        closeBuildSelectorDir.Play();
+        buildSelectorOpen = false;
         selectedTile = null;
         selectedCellpos = Vector3Int.zero;
     }
@@ -78,7 +149,7 @@ public class TowerManager : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
         {
-            if (!selectorOpen)
+            if (!buildSelectorOpen)
             {
                 Vector3 mousePos = _mainCam.ScreenToWorldPoint(Input.mousePosition);
                 selectedCellpos = _grid.WorldToCell(mousePos);
@@ -86,12 +157,12 @@ public class TowerManager : MonoBehaviour
 
                 if (selectedTile)
                 {
-                    openSelectorMenu(mousePos);
+                    openBuildSelectorMenu(mousePos);
                 }
             }
             else
             {
-                closeSelectorMenu();
+                closeBuildSelectorMenu();
             }
         }
     }
