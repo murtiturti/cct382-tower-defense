@@ -7,6 +7,8 @@ public class Projectile : MonoBehaviour
 {
     private Transform _target;
     private int _damage;
+    private string _type;
+    
     [SerializeField] private float speed;
 
     public float speedModifier;
@@ -26,14 +28,20 @@ public class Projectile : MonoBehaviour
     private bool _hit;
     private float _areaTimer;
 
-    public void SetTarget(Transform target, int damage) {
+    public void SetTarget(Transform target, int damage, string type) {
         _target = target;
         _damage = damage;
+        _type = type;
     }
 
     public int Damage()
     {
         return _damage;
+    }
+
+    public string Type()
+    {
+        return _type;
     }
 
     private void Start()
@@ -63,7 +71,7 @@ public class Projectile : MonoBehaviour
                 _hit = true;
                 if (damageType == DamageType.Projectile)
                 {
-                    _target.gameObject.GetComponent<Mob>().TakeDamage(_damage);
+                    _target.gameObject.GetComponent<Mob>().TakeDamage(_damage, Type());
                     Destroy(gameObject);
                 }
                 else
