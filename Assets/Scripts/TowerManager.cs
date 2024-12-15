@@ -25,6 +25,9 @@ public class TowerManager : MonoBehaviour
     private PlayableDirector openTowerSelectorDir;
     private PlayableDirector closeTowerSelectorDir;
 
+    private TextMeshProUGUI upgradeText;
+    private TextMeshProUGUI sellText;
+
     private Grid _grid;
     private Camera _mainCam;
 
@@ -37,7 +40,6 @@ public class TowerManager : MonoBehaviour
     {
         if (instance == null) instance = this; else Destroy(this);
         _mainCam = Camera.main;
-        playerMoney.Value = 1000;
     }
 
     private void Start()
@@ -51,6 +53,9 @@ public class TowerManager : MonoBehaviour
 
         openTowerSelectorDir = GameObject.Find("Open Tower Selector Timeline").GetComponent<PlayableDirector>();
         closeTowerSelectorDir = GameObject.Find("Close Tower Selector Timeline").GetComponent<PlayableDirector>();
+
+        upgradeText = GameObject.Find("Upgrade Text").GetComponent<TextMeshProUGUI>();
+        sellText = GameObject.Find("Sell Text").GetComponent<TextMeshProUGUI>();
     }
 
     public void placeTower(int tower_index)
@@ -89,24 +94,16 @@ public class TowerManager : MonoBehaviour
 
         Tower tower = selectedTower.GetComponent<Tower>();
 
-        foreach (TextMeshProUGUI text in towerSelectorObject.GetComponentsInChildren<TextMeshProUGUI>())
+        if (tower.level >= 3)
         {
-            if (text.gameObject.name == "Upgrade Text")
-            {
-                if (tower.level >= 3)
-                {
-                    text.text = $"";
-                }
-                else
-                {
-                    text.text = $"-${tower.cost[tower.level]}";
-                }
-            }
-            else
-            {
-                text.text = $"+${tower.getRefund()}";
-            }
+            upgradeText.text = $"";
         }
+        else
+        {
+            upgradeText.text = $"-${tower.cost[tower.level]}";
+        }
+
+        sellText.text = $"+${tower.getRefund()}";
 
         openTowerSelectorDir.Play();
         towerSelectorOpen = true;
@@ -143,7 +140,7 @@ public class TowerManager : MonoBehaviour
         {
             Tower tower = selectedTower.GetComponent<Tower>();
 
-            playerMoney.Value -= tower.getRefund();
+            playerMoney.Value += tower.getRefund();
             Destroy(selectedTower);
             closeTowerSelectorMenu();
         }
@@ -188,6 +185,11 @@ public class TowerManager : MonoBehaviour
             else
             {
                 closeBuildSelectorMenu();
+            }
+
+            if (towerSelectorOpen)
+            {
+                closeTowerSelectorMenu();
             }
         }
     }
