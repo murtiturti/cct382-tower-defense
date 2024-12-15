@@ -93,6 +93,10 @@ public class Mob : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.CompareTag("Special"))
+        {
+            TakeDamage(300, "special");
+        }
         var projectile = other.GetComponent<Projectile>();
         if (projectile == null)
         {
