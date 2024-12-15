@@ -5,8 +5,10 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager instance;
+
     [SerializeField]
-    private GameMode gameMode;
+    public GameMode gameMode;
     
     private Spawner _spawner;
     private Player _player;
@@ -21,6 +23,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (instance == null) instance = this; else Destroy(this);
+
         _spawner = FindObjectOfType<Spawner>();
         _spawner.SetSpawnerType(gameMode);
         
@@ -66,6 +70,11 @@ public class GameManager : MonoBehaviour
     void OnScoreGain(int gain)
     {
         _score += gain;
+    }
+
+    public int getScore()
+    {
+        return _score;
     }
 
     private void OnDestroy()
