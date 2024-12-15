@@ -63,8 +63,20 @@ public class Mob : MonoBehaviour
         }
     }
 
-    public void TakeDamage(int _damage)
+    public void TakeDamage(int _damage, string projectileType)
     {
+        if (string.Equals(projectileType, "burger", System.StringComparison.OrdinalIgnoreCase) &&
+            string.Equals(type, "vegan", System.StringComparison.OrdinalIgnoreCase))
+        {
+            return;
+        }
+
+        if ((string.Equals(projectileType, "soup", System.StringComparison.OrdinalIgnoreCase) || 
+             string.Equals(projectileType, "cake", System.StringComparison.OrdinalIgnoreCase)) && 
+            string.Equals(type, "lactose intolerant", System.StringComparison.OrdinalIgnoreCase))
+        {
+            return;
+        }
         health -= _damage;
         if (health <= 0)
         {
@@ -76,7 +88,7 @@ public class Mob : MonoBehaviour
 
     public void ModifySpeed(float modifier)
     {
-        speed *= modifier;
+        speed = _startSpeed * modifier;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -92,7 +104,12 @@ public class Mob : MonoBehaviour
         }
         else if (projectile.damageType == Projectile.DamageType.Splash)
         {
-            TakeDamage(projectile.Damage());
+            TakeDamage(projectile.Damage(), projectile.Type());
         }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        ModifySpeed(1f);
     }
 }
