@@ -18,6 +18,7 @@ public class Mob : MonoBehaviour
     [SerializeField] private IntEvent playerDamageEvent;
     [SerializeField] private IntEvent scoreGainEvent;
     [SerializeField] private IntEvent moneyGainEvent;
+    private float _startSpeed;
     
     //TODO: Add strengths and weaknesses
     
@@ -25,6 +26,7 @@ public class Mob : MonoBehaviour
 
     private void Awake()
     {
+        _startSpeed = speed;
         var assistant = FindObjectOfType<PathAssistant>(); //TODO: Get Node transforms from PathAssistant as well
         path = assistant.ChooseRandomPath();
         pathObjects = new List<Transform>();
@@ -71,4 +73,10 @@ public class Mob : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    public void AdjustSpeed(float multiplier)
+    {
+        speed = _startSpeed * multiplier;
+    }
+    
 }
