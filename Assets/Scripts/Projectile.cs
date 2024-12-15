@@ -49,6 +49,10 @@ public class Projectile : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+        else if (_target == null)
+        {
+            _hit = true;
+        }
 
         if (!_hit)
         {

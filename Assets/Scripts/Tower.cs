@@ -19,6 +19,10 @@ public class Tower : MonoBehaviour, IPointerClickHandler
 
     private float _timer;
 
+    public int x;
+    public int y;
+    public int z;
+
     private void Update()
     {
         if (!_hasTarget)
@@ -96,5 +100,12 @@ public class Tower : MonoBehaviour, IPointerClickHandler
         _timer = 0f;
         var go = Instantiate(projectile, transform.position, Quaternion.identity);
         go.GetComponent<Projectile>().SetTarget(_target, damage);
+    }
+
+    public void SetTilePosition(Vector3Int tilePosition)
+    {
+        x = tilePosition.x;
+        y = tilePosition.y;
+        z = tilePosition.z;
     }
 }
