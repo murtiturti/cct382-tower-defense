@@ -22,9 +22,11 @@ public class Mob : MonoBehaviour
     //TODO: Add strengths and weaknesses
     
     private int _currentPathIndex = 0;
+    private float _startSpeed;
 
     private void Awake()
     {
+        _startSpeed = speed;
         var assistant = FindObjectOfType<PathAssistant>(); //TODO: Get Node transforms from PathAssistant as well
         path = assistant.ChooseRandomPath();
         pathObjects = new List<Transform>();
@@ -69,6 +71,28 @@ public class Mob : MonoBehaviour
             moneyGainEvent.Raise(reward);
             scoreGainEvent.Raise(scoreIncrease);
             Destroy(gameObject);
+        }
+    }
+
+    public void ModifySpeed(float modifier)
+    {
+        speed *= modifier;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        var projectile = other.GetComponent<Projectile>();
+        if (projectile == null)
+        {
+            return;
+        }
+        if (projectile.damageType == Projectile.DamageType.Area)
+        {
+            ModifySpeed(projectile.speedModifier);
+        }
+        else if (projectile.damageType == Projectile.DamageType.Splash)
+        {
+            TakeDamage(projectile.Damage());
         }
     }
 }
