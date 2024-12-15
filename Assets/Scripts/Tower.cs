@@ -6,7 +6,7 @@ using UnityEngine.Playables;
 
 public class Tower : MonoBehaviour, IPointerClickHandler
 {
-    public int cost;
+    public int[] cost;
     public int damage;
     public int level = 1;
     public float fireRate;
@@ -35,6 +35,17 @@ public class Tower : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         TowerManager.instance.clickOnTower(this.gameObject);
+    }
+
+    public int getRefund()
+    {
+        int refund = 0;
+        for (int i = 0; i < level;  i++)
+        {
+            refund += cost[i];
+        }
+
+        return (int)(0.7 * refund);
     }
 
     private void ChooseTarget()
