@@ -37,6 +37,7 @@ public class TowerManager : MonoBehaviour
     {
         if (instance == null) instance = this; else Destroy(this);
         _mainCam = Camera.main;
+        playerMoney.Value = 1000;
     }
 
     private void Start()
