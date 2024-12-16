@@ -1,36 +1,48 @@
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    [SerializeField]
-    public GameMode gameMode;
-    
+    [SerializeField] public GameMode gameMode;
+    [SerializeField] private IntEvent scoreGain;
+    [SerializeField] private IntVariable playerMoney;
+
+    private TextMeshProUGUI totalMoneyText;
+    private TextMeshProUGUI totalScoreText;
+
+    private PlayableDirector showEndgameUIDir;
+
     private Spawner _spawner;
     private Player _player;
 
-    private int _score;
-
-    [SerializeField] private IntEvent scoreGain;
-
+    private bool _gameover;
     private float _gameTimer;
     private int _timedModeLength = 5;
+    private int _score;
 
     public AudioSource source;
     public AudioClip winClip, loseClip;
-    // Start is called before the first frame update
+
     void Start()
     {
         if (instance == null) instance = this; else Destroy(this);
         
         source = GetComponent<AudioSource>();
 
+        totalMoneyText = GameObject.Find("Earnings Amount Text").GetComponent<TextMeshProUGUI>();
+        totalScoreText = GameObject.Find("Total Score Amount Text").GetComponent<TextMeshProUGUI>();
+
+        showEndgameUIDir = GameObject.Find("Endgame UI Timeline").GetComponent<PlayableDirector>();
+
         _spawner = FindObjectOfType<Spawner>();
         _spawner.SetSpawnerType(gameMode);
         
         _player = FindObjectOfType<Player>();
+        _gameover = false;
         scoreGain.RegisterListener(OnScoreGain);
     }
 
@@ -46,10 +58,11 @@ public class GameManager : MonoBehaviour
          * Mobs walk from node to node
          * Game ends when player loses all health points
          */
-        if (PlayerDied()) {
-            Debug.Log("Game Over");
+        if (PlayerDied() && !_gameover) {
+            _gameover = true;
             _spawner.enabled = false;
-            source.PlayOneShot(loseClip);
+            // source.PlayOneShot(loseClip);
+            showEndgameUI();
             return;
         }
 
@@ -69,6 +82,23 @@ public class GameManager : MonoBehaviour
         {
             SceneManager.LoadSceneAsync(0);
         }
+    }
+
+    public void playAgain()
+    {
+        SceneManager.LoadSceneAsync(1);
+    }
+
+    public void exitToMainMenu()
+    {
+        SceneManager.LoadSceneAsync(0);
+    }
+
+    private void showEndgameUI()
+    {
+        totalMoneyText.text = $"{playerMoney.Value}";
+        totalScoreText.text = $"{_score}";
+        showEndgameUIDir.Play();
     }
 
     bool PlayerDied()
