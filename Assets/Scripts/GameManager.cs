@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     private bool _gameover;
     private float _gameTimer;
     private float _endgameTime;
-    private int _timedModeLength = 2;
+    private int _timedModeLength = 3;
     private int _score;
 
     public AudioSource source;
