@@ -1,8 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
@@ -16,6 +14,10 @@ public class Player : MonoBehaviour
 
     [SerializeField] private GameObject specialAttack;
     [SerializeField] private float specialCooldown;
+
+    private TextMeshProUGUI specialStatusText;
+    private TextMeshProUGUI specialCooldownText;
+
     private float _specialTimer;
     private Camera mainCam;
 
@@ -25,6 +27,9 @@ public class Player : MonoBehaviour
         winMoney.RegisterListener(OnMoneyGain);
         playerMoney.Value = startMoney;
         mainCam = Camera.main;
+
+        specialCooldownText = GameObject.Find("Special Cooldown Text").GetComponent<TextMeshProUGUI>();
+        specialStatusText = GameObject.Find("Special Status Text").GetComponent<TextMeshProUGUI>();
     }
 
     private void Update()
@@ -37,6 +42,23 @@ public class Player : MonoBehaviour
             Vector3 worldPos = mainCam.ScreenToWorldPoint(mousePos);
             Instantiate(specialAttack, worldPos, Quaternion.identity);
             _specialTimer = 0f;
+        }
+
+        if (_specialTimer < specialCooldown)
+        {
+            float remainingTime = Mathf.Max(specialCooldown - _specialTimer, 0);
+
+            // Convert to minutes and seconds
+            int minutes = Mathf.FloorToInt(remainingTime / 60);
+            int seconds = Mathf.FloorToInt(remainingTime % 60);
+
+            specialCooldownText.text = $"{minutes:00}:{seconds:00}";
+            specialStatusText.text = "On Cooldown";
+        }
+        else
+        {
+            specialCooldownText.text = "00:00";
+            specialStatusText.text = "Ready";
         }
     }
 

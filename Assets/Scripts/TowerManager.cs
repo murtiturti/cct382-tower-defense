@@ -82,6 +82,7 @@ public class TowerManager : MonoBehaviour
     public void clickOnTower(GameObject tower)
     {
         towerSelectorOpen = false;
+        if (selectedTower) selectedTower.GetComponent<Tower>().ToggleRange(false);
         selectedTower = tower;
         
         towerSelectorObject.transform.position = new Vector3(tower.transform.position.x, tower.transform.position.y, towerSelectorObject.transform.position.z);
