@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,10 +20,31 @@ public class Tower : MonoBehaviour, IPointerClickHandler
 
     private float _timer;
 
+    private GameObject _towerRange;
+
     // DO NOT ASSIGN THESE VALUES
     public int x;
     public int y;
     public int z;
+
+    private void Start()
+    {
+        _towerRange = transform.GetChild(0).gameObject;
+        SpriteRenderer spriteRenderer = _towerRange.GetComponent<SpriteRenderer>();
+        
+        if (spriteRenderer != null)
+        {
+            // Get the size of the sprite in world units
+            float spriteWorldUnitSize = spriteRenderer.bounds.size.x / _towerRange.transform.localScale.x;
+
+            // Calculate the scale factor to make the sprite's radius match the range
+            float scaleFactor = (range * 2) / spriteWorldUnitSize; // Diameter = range * 2
+
+            // Apply the correct scale
+            _towerRange.transform.localScale = new Vector3(scaleFactor, scaleFactor, 1);
+        }
+        _towerRange.SetActive(false);
+    }
 
     private void Update()
     {
@@ -108,5 +130,10 @@ public class Tower : MonoBehaviour, IPointerClickHandler
         x = tilePosition.x;
         y = tilePosition.y;
         z = tilePosition.z;
+    }
+
+    public void ToggleRange(bool toggle)
+    {
+        _towerRange.SetActive(toggle);
     }
 }
