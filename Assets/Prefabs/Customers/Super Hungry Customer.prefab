@@ -105,7 +105,7 @@ MonoBehaviour:
   speed: 1.5
   damage: 3
   type: super hungry
-  reward: 30
+  reward: 25
   scoreIncrease: 150
   playerDamageEvent: {fileID: 11400000, guid: e535bc3923b81ae42981d0a9b5b9bb95, type: 2}
   scoreGainEvent: {fileID: 11400000, guid: 87b751b3ac4a21640869b9b40199de9b, type: 2}

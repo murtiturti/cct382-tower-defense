@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Main Menu Scene.unity
     guid: 95297e604ea57a242a6a422278cb807a
   - enabled: 1
-    path: Assets/Scenes/Nik Scene.unity
-    guid: d46b2e16d3701fc4a8ab85708e3db528
+    path: Assets/Scenes/Main Scene.unity
+    guid: 19157130c2ff80a45b72979e2972792f
   m_configObjects: {}
