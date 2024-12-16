@@ -2,11 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Player : MonoBehaviour
 {
     [SerializeField] private int health;
-    [SerializeField] private int money;
+    [FormerlySerializedAs("money")] [SerializeField] private int startMoney;
 
     [SerializeField] private IntEvent takeDamage;
     [SerializeField] private IntEvent winMoney;
@@ -22,7 +23,7 @@ public class Player : MonoBehaviour
     {
         takeDamage.RegisterListener(OnDamageTaken);
         winMoney.RegisterListener(OnMoneyGain);
-        playerMoney.Value = money;
+        playerMoney.Value = startMoney;
         mainCam = Camera.main;
     }
 
@@ -46,8 +47,7 @@ public class Player : MonoBehaviour
 
     private void OnMoneyGain(int moneyGain)
     {
-        money += moneyGain;
-        playerMoney.Value = money;
+        playerMoney.Value += startMoney;
     }
 
     private void OnDamageTaken(int damage)
