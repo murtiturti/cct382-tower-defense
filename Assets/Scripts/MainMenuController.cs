@@ -5,6 +5,7 @@ using UnityEngine.Playables;
 public class MainMenuController : MonoBehaviour
 {
     private PlayableDirector openMenuDir;
+    public IntVariable gameMode;
     private bool menuOpened = false;
 
     public void openGameModeMenu()
@@ -21,11 +22,13 @@ public class MainMenuController : MonoBehaviour
     {
         if (game_mode == 0)
         {
-            // set Timed Game Mode
+            // set Timed Game Mode (1)
+            gameMode.Value = 1;
         }
         else if (game_mode == 1)
         {
-            // set Survival Game Mode
+            // set Survival Game Mode (0)
+            gameMode.Value = 0;
         }
         
         SceneManager.LoadSceneAsync(1);
