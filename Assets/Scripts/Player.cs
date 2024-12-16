@@ -47,7 +47,7 @@ public class Player : MonoBehaviour
 
     private void OnMoneyGain(int moneyGain)
     {
-        playerMoney.Value += startMoney;
+        playerMoney.Value += moneyGain;
     }
 
     private void OnDamageTaken(int damage)
