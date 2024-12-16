@@ -17,11 +17,15 @@ public class GameManager : MonoBehaviour
 
     private float _gameTimer;
     private int _timedModeLength = 5;
-    
+
+    public AudioSource source;
+    public AudioClip winClip, loseClip;
     // Start is called before the first frame update
     void Start()
     {
         if (instance == null) instance = this; else Destroy(this);
+        
+        source = GetComponent<AudioSource>();
 
         _spawner = FindObjectOfType<Spawner>();
         _spawner.SetSpawnerType(gameMode);
@@ -45,6 +49,7 @@ public class GameManager : MonoBehaviour
         if (PlayerDied()) {
             Debug.Log("Game Over");
             _spawner.enabled = false;
+            source.PlayOneShot(loseClip);
             return;
         }
 
@@ -54,6 +59,7 @@ public class GameManager : MonoBehaviour
             if (_gameTimer >= _timedModeLength * 60)
             {
                 Debug.Log("Game Over");
+                source.PlayOneShot(winClip);
                 _spawner.enabled = false;
                 return;
             }

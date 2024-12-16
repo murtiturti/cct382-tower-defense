@@ -19,7 +19,7 @@ public class Mob : MonoBehaviour
     [SerializeField] private IntEvent scoreGainEvent;
     [SerializeField] private IntEvent moneyGainEvent;
     
-    //TODO: Add strengths and weaknesses
+    private AudioSource _audioSource;
     
     private int _currentPathIndex = 0;
     private float _startSpeed;
@@ -40,6 +40,7 @@ public class Mob : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _audioSource = GetComponent<AudioSource>();
         transform.position = pathObjects[_currentPathIndex].position;
         _currentPathIndex++;
     }
@@ -77,6 +78,7 @@ public class Mob : MonoBehaviour
         {
             return;
         }
+        _audioSource.Play();
         health -= _damage;
         if (health <= 0)
         {
