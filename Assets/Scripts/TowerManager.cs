@@ -83,6 +83,7 @@ public class TowerManager : MonoBehaviour
     {
         towerSelectorOpen = false;
         selectedTower = tower;
+        
         towerSelectorObject.transform.position = new Vector3(tower.transform.position.x, tower.transform.position.y, towerSelectorObject.transform.position.z);
 
         openTowerSelectorMenu();
@@ -96,6 +97,7 @@ public class TowerManager : MonoBehaviour
         }
 
         Tower tower = selectedTower.GetComponent<Tower>();
+        tower.ToggleRange(true);
 
         if (tower.level >= 3)
         {
@@ -116,6 +118,7 @@ public class TowerManager : MonoBehaviour
     {
         closeTowerSelectorDir.Play();
         towerSelectorOpen = false;
+        selectedTower.GetComponent<Tower>().ToggleRange(false);
         selectedTower = null;
     }
 
