@@ -11,17 +11,21 @@ public class GameManager : MonoBehaviour
     [SerializeField] private IntEvent scoreGain;
     [SerializeField] private IntVariable playerMoney;
 
+    public IntVariable gameModeData;
+
     private TextMeshProUGUI totalMoneyText;
     private TextMeshProUGUI totalScoreText;
+
+    private TextMeshProUGUI timerText;
 
     private PlayableDirector showEndgameUIDir;
 
     private Spawner _spawner;
-    private Player _player;
+    public Player _player;
 
     private bool _gameover;
     private float _gameTimer;
-    private int _timedModeLength = 5;
+    private int _timedModeLength = 2;
     private int _score;
 
     public AudioSource source;
@@ -31,8 +35,20 @@ public class GameManager : MonoBehaviour
     {
         if (instance == null) instance = this; else Destroy(this);
         
+        gameMode = (GameMode)gameModeData.Value;
+        
         totalMoneyText = GameObject.Find("Earnings Amount Text").GetComponent<TextMeshProUGUI>();
         totalScoreText = GameObject.Find("Total Score Amount Text").GetComponent<TextMeshProUGUI>();
+        
+        timerText = GameObject.Find("Timer Text").GetComponent<TextMeshProUGUI>();
+        if (gameMode == GameMode.Timed)
+        {
+            timerText.gameObject.SetActive(true);
+        }
+        else
+        {
+            timerText.gameObject.SetActive(false);
+        }
 
         showEndgameUIDir = GameObject.Find("Endgame UI Timeline").GetComponent<PlayableDirector>();
 
@@ -67,6 +83,24 @@ public class GameManager : MonoBehaviour
         if (gameMode == GameMode.Timed)
         {
             _gameTimer += Time.deltaTime;
+            
+            float remainingTime = Mathf.Max((_timedModeLength * 60) - _gameTimer, 0);
+
+            // Convert to minutes and seconds
+            int minutes = Mathf.FloorToInt(remainingTime / 60);
+            int seconds = Mathf.FloorToInt(remainingTime % 60);
+
+            // Update timer text in mm:ss format
+            timerText.text = $"{minutes:00}:{seconds:00}";
+
+            if (_gameTimer >= _timedModeLength * 60)
+            {
+                Debug.Log("Game Over");
+                source.PlayOneShot(winClip);
+                _spawner.enabled = false;
+                return;
+            }
+            
             if (_gameTimer >= _timedModeLength * 60)
             {
                 Debug.Log("Game Over");
