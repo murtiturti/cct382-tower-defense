@@ -31,8 +31,6 @@ public class GameManager : MonoBehaviour
     {
         if (instance == null) instance = this; else Destroy(this);
         
-        source = GetComponent<AudioSource>();
-
         totalMoneyText = GameObject.Find("Earnings Amount Text").GetComponent<TextMeshProUGUI>();
         totalScoreText = GameObject.Find("Total Score Amount Text").GetComponent<TextMeshProUGUI>();
 
@@ -61,7 +59,7 @@ public class GameManager : MonoBehaviour
         if (PlayerDied() && !_gameover) {
             _gameover = true;
             _spawner.enabled = false;
-            // source.PlayOneShot(loseClip);
+            source.PlayOneShot(loseClip);
             showEndgameUI();
             return;
         }
