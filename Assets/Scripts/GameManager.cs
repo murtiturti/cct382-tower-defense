@@ -98,6 +98,7 @@ public class GameManager : MonoBehaviour
                 Debug.Log("Game Over");
                 source.PlayOneShot(winClip);
                 _spawner.enabled = false;
+                _gameover = true;
                 return;
             }
             
